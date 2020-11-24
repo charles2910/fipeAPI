@@ -36,5 +36,20 @@ years = json.loads(anos.text)
 for obj in years:
     print("[" + obj['codigo'] + "] " + obj['nome'])
 
-selected_year = input('Select the model year by number: ')
+selected_year = input('Select the model year by number: ').split('-')
 
+info = {
+        "codigoTabelaReferencia": "262",
+        "codigoMarca": str(selected_maker),
+        "codigoModelo": str(selected_car),
+        "codigoTipoVeiculo": "1",
+        "anoModelo": str(selected_year[0]),
+        "codigoTipoCombustivel": str(selected_year[1]),
+        "tipoVeiculo": "carro",
+        "modeloCodigoExterno": "",
+        "tipoConsulta": "tradicional"
+}
+
+fipe = requests.post('https://veiculos.fipe.org.br/api/veiculos//ConsultarValorComTodosParametros', data=info)
+
+print(fipe.text)
