@@ -22,7 +22,10 @@ cars = cars['modelos']
 
 
 for obj in cars:
-    print("[" + obj['codigo'] + "] " + obj['nome'])
+    try:
+        print("[" + obj['codigo'] + "] " + obj['nome'])
+    except TypeError:
+        print("[" + str(obj['codigo']) + "] " + obj['nome'])
 
 selected_car = input('Select the car by number: ')
 
