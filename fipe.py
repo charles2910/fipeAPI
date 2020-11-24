@@ -31,12 +31,10 @@ selected_car = input('Select the car by number: ')
 
 anos = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/'+selected_maker+'/modelos/'+selected_car+'/anos', headers={"user-agent": "curl/7.72.0"})
 
-year = json.loads(anos.text)
-year = cars['modelos']
+years = json.loads(anos.text)
 
-
-for obj in cars:
+for obj in years:
     print("[" + obj['codigo'] + "] " + obj['nome'])
 
-selected_car = input('Select the car by number: ')
+selected_year = input('Select the model year by number: ')
 
