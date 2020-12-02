@@ -12,13 +12,25 @@ def main():
     else:
         print('Função inválida : (')
 
-marcas = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas', headers={"user-agent": "curl/7.72.0"})
+def fetchValor():
+    marcas = fetch('marcas')
+    printValores()
+    selected_maker = input('Select the car maker by number: ')
 
-maker = json.loads(marcas.text)
+def fetch(objeto):
+    if objeto == 'marcas':
+        marcas = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas', headers={"user-agent": "curl/7.72.0"})
+        maker = json.loads(marcas.text)
+        return maker
+    elif objeto == 'modelos':
 
 
-for obj in maker:
-    print("[" + obj['codigo'] + "] " + obj['nome'])
+def printValores(tupla):
+    for obj in tupla:
+        try:
+            print("[" + obj['codigo'] + "] " + obj['nome'])
+        except TypeError:
+            print("[" + str(obj['codigo']) + "] " + obj['nome'])
 
 selected_maker = input('Select the car maker by number: ')
 
