@@ -5,9 +5,9 @@ import json
 
 def main():
     funcao = input('Selecione o número:\n\t[1] Ver valor médio atual\n\t[2] Plotar gráfico: ')
-    if funcao == 1:
+    if funcao == '1':
         fetchValor()
-    elif funcao == 2:
+    elif funcao == '2':
         plotPrice()
     else:
         print('Função inválida : (')
