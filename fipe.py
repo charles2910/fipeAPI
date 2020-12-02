@@ -14,16 +14,35 @@ def main():
 
 def fetchValor():
     marcas = fetch('marcas')
-    printValores()
-    selected_maker = input('Select the car maker by number: ')
+    printValores(marcas)
+    car['maker'] = input('Select the car maker by number: ')
 
-def fetch(objeto):
-    if objeto == 'marcas':
-        marcas = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas', headers={"user-agent": "curl/7.72.0"})
+    modelos = fetch('modelos', car)
+    printValores(modelos)
+    car['model'] = input('Select the car by number: ')
+
+
+    car['year'] = input('Select the model year by number: ').split('-')
+
+
+def fetch(tipo, objeto):
+    if tipo == 'marcas':
+        marcas = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas', \
+                headers={"user-agent": "curl/7.72.0"})
         maker = json.loads(marcas.text)
         return maker
-    elif objeto == 'modelos':
-
+    elif tipo == 'modelos':
+        requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/' \
+                + objeto['maker'] + '/modelos', headers={"user-agent": "curl/7.72.0"})
+        cars = json.loads(carros.text)
+        cars = cars['modelos']
+        return cars
+    elif tipo == 'anos':
+        requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/' \
+                + objeto['maker'] + '/modelos/' + objeto['car'] + '/anos', \
+                headers={"user-agent": "curl/7.72.0"})
+        years = json.loads(anos.text)
+        return years
 
 def printValores(tupla):
     for obj in tupla:
@@ -32,30 +51,7 @@ def printValores(tupla):
         except TypeError:
             print("[" + str(obj['codigo']) + "] " + obj['nome'])
 
-selected_maker = input('Select the car maker by number: ')
-
-carros = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/'+selected_maker+'/modelos', headers={"user-agent": "curl/7.72.0"})
-
-cars = json.loads(carros.text)
-cars = cars['modelos']
-
-
-for obj in cars:
-    try:
-        print("[" + obj['codigo'] + "] " + obj['nome'])
-    except TypeError:
-        print("[" + str(obj['codigo']) + "] " + obj['nome'])
-
-selected_car = input('Select the car by number: ')
-
-anos = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas/'+selected_maker+'/modelos/'+selected_car+'/anos', headers={"user-agent": "curl/7.72.0"})
-
-years = json.loads(anos.text)
-
-for obj in years:
-    print("[" + obj['codigo'] + "] " + obj['nome'])
-
-selected_year = input('Select the model year by number: ').split('-')
+main()
 
 info = {
         "codigoTabelaReferencia": "262",
