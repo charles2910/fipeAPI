@@ -3,7 +3,14 @@
 import requests
 import json
 
-print('oi')
+def main():
+    funcao = input('Selecione o número:\n\t[1] Ver valor médio atual\n\t[2] Plotar gráfico: ')
+    if funcao == 1:
+        fetchValor()
+    elif funcao == 2:
+        plotPrice()
+    else:
+        print('Função inválida : (')
 
 marcas = requests.get('https://parallelum.com.br/fipe/api/v1/carros/marcas', headers={"user-agent": "curl/7.72.0"})
 
