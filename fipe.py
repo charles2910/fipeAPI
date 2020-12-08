@@ -30,20 +30,24 @@ def fetchValor():
     printValores(anos)
     car['year'] = input('Select the model year by number: ').split('-')
 
+    info = HTTPrequest(car, "262")
+
+    fipe = requests.post('https://veiculos.fipe.org.br/api/veiculos//ConsultarValorComTodosParametros', data=info)
+    print(fipe.text)
+
+def HTTPrequest(carro, mes):
     info = {
-        "codigoTabelaReferencia": "262",
-        "codigoMarca": car['maker'],
-        "codigoModelo": car['model'],
+        "codigoTabelaReferencia": mes,
+        "codigoMarca": carro['maker'],
+        "codigoModelo": carro['model'],
         "codigoTipoVeiculo": "1",
-        "anoModelo": car['year'][0],
-        "codigoTipoCombustivel":car['year'][1],
+        "anoModelo": carro['year'][0],
+        "codigoTipoCombustivel":carro['year'][1],
         "tipoVeiculo": "carro",
         "modeloCodigoExterno": "",
         "tipoConsulta": "tradicional"
     }
-
-    fipe = requests.post('https://veiculos.fipe.org.br/api/veiculos//ConsultarValorComTodosParametros', data=info)
-    print(fipe.text)
+    return info
 
 def fetch(tipo, objeto):
     if tipo == 'marcas':
