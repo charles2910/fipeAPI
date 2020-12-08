@@ -30,10 +30,18 @@ def fetchValor():
     printValores(anos)
     car['year'] = input('Select the model year by number: ').split('-')
 
-    info = HTTPrequest(car, "262")
+    month = getCurrentMonth()
+
+    info = HTTPrequest(car, month)
 
     fipe = requests.post('https://veiculos.fipe.org.br/api/veiculos//ConsultarValorComTodosParametros', data=info)
     print(fipe.text)
+
+def getCurrentMonth():
+    month = requests.post("https://veiculos.fipe.org.br/api/veiculos//ConsultarTabelaDeReferencia", \
+            headers={"user-agent":"curl/7.72.0"})
+    month = json.loads(month.text)
+    return month[0]['Codigo']
 
 def HTTPrequest(carro, mes):
     info = {
